@@ -1,6 +1,6 @@
 module View exposing(..)
 
-import Html exposing(Html, div, text, button, input, h3, h4, label)
+import Html exposing(Html, div, text, button, input, h3, h4, label, li, ul)
 import Html.Attributes exposing(..)
 import Html.Events exposing(onClick, onInput)
 import Types exposing(Msg(..), Model)
@@ -13,10 +13,10 @@ from whatever the state of the model is
 view : Model -> Html Msg
 view model =
   div [ align "center"]
-  [ div []
+  [ div [] [(formErrors model.errors)]
+  , div []
     [ text "Search"
-    , input [ type_ "text", placeholder "iPhone...", onInput SetTerm ] []
-    ]
+    , input [ type_ "text", placeholder "iPhone...", onInput SetTerm ] []]
   , (selectType model)
   , div []
     [ div []
@@ -76,3 +76,10 @@ selectType model =
             [ label [] [ text "Seller Types"]
             , Html.map SelectType (Select.view typeSelectConfig model.typeSelectState model.types selectedType)
             ]
+
+{-| Render a list of any errors we have when submitting the form -}
+formErrors: List String -> Html msg
+formErrors errors =
+  errors
+      |> List.map(\error -> li [] [text error])
+      |> ul []
