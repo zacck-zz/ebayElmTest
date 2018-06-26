@@ -33,6 +33,7 @@ type alias Model =
   , selectedSellerTypeId : Maybe String
   , typeSelectState : Select.State
   , types : List SellerType
+  , errors : List String
   }
 
 

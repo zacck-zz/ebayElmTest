@@ -21,6 +21,7 @@ model =
   , selectedSellerTypeId = Nothing
   , typeSelectState = Select.newState ""
   , types = []
+  , errors = []
   }
 
 -- Build an inital model to start up with
@@ -36,6 +37,7 @@ starmodel =
   , selectedSellerTypeId = Nothing
   , typeSelectState = Select.newState ""
   , types = []
+  , errors = []
   }
 
 
@@ -52,6 +54,7 @@ currencyModel =
   , selectedSellerTypeId = Nothing
   , typeSelectState = Select.newState ""
   , types = []
+  , errors = []
   }
 
 
@@ -100,6 +103,7 @@ modelTest =
                               , selectedSellerTypeId = Nothing
                               , typeSelectState = Select.newState ""
                               , types = []
+                              , errors = []
                              }
 
           , test "add a priceMin to state" <|
@@ -118,6 +122,7 @@ modelTest =
                               , selectedSellerTypeId = Nothing
                               , typeSelectState = Select.newState ""
                               , types = []
+                              , errors = []
                               }
          , test "add a priceMax to state" <|
              \_ ->
@@ -135,6 +140,7 @@ modelTest =
                              , selectedSellerTypeId = Nothing
                              , typeSelectState = Select.newState ""
                              , types = []
+                             , errors = []
                              }
          ]
       ]
