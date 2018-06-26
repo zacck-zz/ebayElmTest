@@ -4,7 +4,9 @@ our application and it has a few functions that we can use to initialize
 and set up our application
 -}
 
-import Html exposing(Html, div, text)
+import Html exposing(Html, div, text, button, input)
+import Html.Attributes exposing(..)
+
 
 
 -- Build a type for our model
@@ -38,8 +40,33 @@ from whatever the state of the model is
 -}
 view : Model -> Html msg
 view model =
-  div []
-  [ div [] [ text model.url]]
+  div [ align "center"]
+  [ div []
+    [ text "Search"
+    , input [ type_ "text", placeholder "Name"] []
+    ]
+  , div []
+    [ text "Seller Type"
+    , input [ type_ "text", placeholder "Individual"] []
+    ]
+  , div []
+    [ div []
+      [ div []
+        [ text "Min"
+        , input [ type_ "text", placeholder "50"] []
+        ]
+      , div []
+        [ text "Max"
+        , input [ type_ "text", placeholder "500"] []
+        ]
+      , div []
+        [ text "Currency"
+        , input [ type_ "text", placeholder "USD"] []
+        ]
+      ]
+    ]
+   , button [] [text "Search"]
+  ]
 
 -- our program
 main =
