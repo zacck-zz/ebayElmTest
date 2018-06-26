@@ -1,17 +1,26 @@
 module Suite exposing (..)
 
 import Expect exposing (Expectation)
-import Main exposing(..)
+import State exposing(update)
+import Types exposing(Msg(..), Model)
 import Test exposing (..)
+import Select
 
 
+-- Build an inital model to start up with
 model : Model
 model =
   { q = ""
   , priceMin = ""
-  , priceMax =  ""
+  , priceMax = ""
   , priceCurrency = ""
   , accountType = ""
+  , selectedCurrencyId = Nothing
+  , currencySelectState = Select.newState ""
+  , currencies = []
+  , selectedSellerTypeId = Nothing
+  , typeSelectState = Select.newState ""
+  , types = []
   }
 
 modelTest : Test
@@ -29,6 +38,12 @@ modelTest =
                               , priceMax = ""
                               , priceCurrency = ""
                               , accountType = ""
+                              , selectedCurrencyId = Nothing
+                              , currencySelectState = Select.newState ""
+                              , currencies = []
+                              , selectedSellerTypeId = Nothing
+                              , typeSelectState = Select.newState ""
+                              , types = []
                              }
 
           , test "add a priceMin to state" <|
@@ -42,6 +57,12 @@ modelTest =
                               , priceMax = ""
                               , priceCurrency = ""
                               , accountType = ""
+                              , selectedCurrencyId = Nothing
+                              , currencySelectState = Select.newState ""
+                              , currencies = []
+                              , selectedSellerTypeId = Nothing
+                              , typeSelectState = Select.newState ""
+                              , types = []
                               }
          , test "add a priceMax to state" <|
              \_ ->
@@ -54,6 +75,12 @@ modelTest =
                              , priceMax = "500"
                              , priceCurrency = ""
                              , accountType = ""
+                             , selectedCurrencyId = Nothing
+                             , currencySelectState = Select.newState ""
+                             , currencies = []
+                             , selectedSellerTypeId = Nothing
+                             , typeSelectState = Select.newState ""
+                             , types = []
                              }
          ]
       ]
