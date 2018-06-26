@@ -1,10 +1,11 @@
 module View exposing(..)
 
-import Html exposing(Html, div, text, button, input)
+import Html exposing(Html, div, text, button, input, h3, h4, label)
 import Html.Attributes exposing(..)
 import Html.Events exposing(onClick, onInput)
 import Types exposing(Msg(..), Model)
-
+import Utils exposing(currencySelectConfig, typeSelectConfig)
+import Select
 
 {-| This function contains the view we display for the form it render the UI
 from whatever the state of the model is
@@ -16,10 +17,7 @@ view model =
     [ text "Search"
     , input [ type_ "text", placeholder "iPhone...", onInput SetTerm ] []
     ]
-  , div []
-    [ text "Seller Type"
-    , input [ type_ "text", placeholder "Individual"] []
-    ]
+  , (selectType model)
   , div []
     [ div []
       [ div []
@@ -30,11 +28,51 @@ view model =
         [ text "Max"
         , input [ type_ "text", placeholder "500", onInput SetMax ] []
         ]
-      , div []
-        [ text "Currency"
-        , input [ type_ "text", placeholder "USD"] []
-        ]
+      , (selectCurrency model)
       ]
     ]
    , button [ onClick SendSearch ] [text "Search"]
   ]
+
+
+
+{-| Render an autocompleting select to make sure user can only select valid
+options in the currency field
+-}
+selectCurrency : Model -> Html Msg
+selectCurrency model =
+    let
+        selectedCurrency =
+            case model.selectedCurrencyId of
+                Nothing ->
+                    Nothing
+
+                Just id ->
+                    List.filter (\curr -> curr.id == id) model.currencies
+                        |> List.head
+    in
+        div [align "center"]
+            [ label [] [ text "Available Currencies"]
+            , Html.map SelectCurrency (Select.view currencySelectConfig model.currencySelectState model.currencies selectedCurrency)
+            ]
+
+
+{-| Render an autocompleting select to make sure user can only select valid
+options in the Seller Type field
+-}
+selectType: Model -> Html Msg
+selectType model =
+    let
+        selectedType =
+            case model.selectedSellerTypeId of
+                Nothing ->
+                    Nothing
+
+                Just id ->
+                    List.filter (\typ -> typ.id == id) model.types
+                        |> List.head
+    in
+        div [align "center"]
+            [ label [] [ text "Seller Types"]
+            , Html.map SelectType (Select.view typeSelectConfig model.typeSelectState model.types selectedType)
+            ]
