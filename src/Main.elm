@@ -4,7 +4,6 @@ our application and it has a few functions that we can use to initialize
 and set up our application
 -}
 
-
 import Navigation exposing(Location)
 import State exposing(init, update)
 import Types exposing(Msg(..))

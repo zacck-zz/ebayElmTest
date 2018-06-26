@@ -2,7 +2,7 @@ module State exposing(..)
 
 import Navigation exposing(Location)
 import Types exposing(Msg(..), Model)
-import Utils exposing(baseUrl, currencySelectConfig, currencies, accountTypes, typeSelectConfig)
+import Utils exposing(baseUrl, currencySelectConfig, currencies, accountTypes, typeSelectConfig, validateSearch)
 import Select
 
 
@@ -30,6 +30,7 @@ initialModel =
   , selectedSellerTypeId = Nothing
   , typeSelectState = Select.newState ""
   , types = accountTypes
+  , errors = []
   }
 
 
@@ -55,11 +56,11 @@ update msg model =
       in
         (model, Cmd.none)
     SendSearch ->
-      let
-          cmd =
-                Navigation.newUrl baseUrl
-      in
-        (model, cmd)
+      case validateSearch model of
+        [] ->
+          (model, (Navigation.newUrl baseUrl))
+        errors ->
+          ({ model | errors = errors}, Cmd.none)
     OnCurrencySelect maybeCurrency ->
       let
           maybeId =
