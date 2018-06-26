@@ -1,8 +1,43 @@
 module Utils exposing (..)
 
-import Types exposing(Msg(..), Currency, SellerType)
+import Types exposing(Msg(..), Currency, SellerType, Model)
 import Select
+import Validate exposing (Validator, ifBlank, ifInvalidEmail, ifFalse, ifTrue, validate)
 
+
+--search validator
+searchValidator : Validator String Model
+searchValidator =
+  Validate.all
+    [ Validate.firstError
+        [ifBlank .q "Please enter a term"
+        ,ifTrue (\model -> String.contains "*" model.q) "* Not allowed in term"
+        ]
+    , ifFalse (\model -> currencyPredicate model) "Please select a curreny"
+    ]
+
+{-| Predicate function to check  for currency type if min or max is entered-}
+-- take a model
+-- if min is entered currency must be chosen
+-- if max is entered currency must be chosen
+currencyPredicate : Model -> Bool
+currencyPredicate model =
+  case model.selectedCurrencyId of
+    Just p -> True
+    Nothing ->
+          -- our currency has to be selected if the max or min is entered
+          if not (String.isEmpty model.priceMax) || not (String.isEmpty model.priceMin)  then
+            False
+          else
+            True
+
+
+
+
+-- validateContract
+validateSearch : Model -> List String
+validateSearch model =
+    validate searchValidator model
 
 -- base url for the api call
 baseUrl : String
