@@ -1,4 +1,6 @@
 module View exposing(..)
+{-| This module contains the functions that render our
+Application views-}
 
 import Html exposing(Html, div, text, button, input, h3, h4, label, li, ul)
 import Html.Attributes exposing(..)

@@ -1,4 +1,6 @@
 module Types exposing(..)
+{-| This module contains all the types we use through
+the application -}
 
 import Navigation exposing(Location)
 import Select

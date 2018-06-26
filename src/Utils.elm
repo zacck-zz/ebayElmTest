@@ -1,4 +1,6 @@
 module Utils exposing (..)
+{-| This module contains utility funcitions used around
+the applications to do cleanups and setups-}
 
 import Types exposing(Msg(..), Currency, SellerType, Model)
 import Select

@@ -1,4 +1,6 @@
 module State exposing(..)
+{-| This module contains functions that are used to
+manage the state of the form -}
 
 import Navigation exposing(Location)
 import Types exposing(Msg(..), Model)
@@ -35,7 +37,7 @@ initialModel =
 
 
 
-{-| Use this function to update the state of out form
+{-| Use this function to update the state of our form
 We send updates to this function containing a message and the payload
 -}
 update : Msg -> Model -> (Model, Cmd Msg)
