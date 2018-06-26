@@ -31,7 +31,7 @@ modelTest =
                               , accountType = ""
                              }
 
-          , test "add a price to state" <|
+          , test "add a priceMin to state" <|
               \_ ->
                   model
                       |> update (SetMin "50")
@@ -43,6 +43,18 @@ modelTest =
                               , priceCurrency = ""
                               , accountType = ""
                               }
+         , test "add a priceMax to state" <|
+             \_ ->
+                 model
+                     |> update (SetMax "500")
+                     |> Tuple.first
+                     |> Expect.equal
+                             { q = ""
+                             , priceMin = ""
+                             , priceMax = "500"
+                             , priceCurrency = ""
+                             , accountType = ""
+                             }
          ]
       ]
 

@@ -42,6 +42,7 @@ type Msg
     = CheckUrl
     | SetTerm String
     | SetMin String
+    | SetMax String
 
 
 {-| Use this function to update the state of out form
@@ -56,6 +57,8 @@ update msg model =
       ({ model | q = term }, Cmd.none)
     SetMin minAmount ->
       ({ model | priceMin = minAmount }, Cmd.none)
+    SetMax maxAmount ->
+      ({ model | priceMax = maxAmount}, Cmd.none)
 
 
 
@@ -82,7 +85,7 @@ view model =
         ]
       , div []
         [ text "Max"
-        , input [ type_ "text", placeholder "500" ] []
+        , input [ type_ "text", placeholder "500", onInput SetMax ] []
         ]
       , div []
         [ text "Currency"
