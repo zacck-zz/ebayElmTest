@@ -14,7 +14,8 @@ import Html.Events exposing(onClick, onInput)
 -- Build a type for our model
 type alias Model =
   { q: String
-  , price: String
+  , priceMin: String
+  , priceMax: String
   , priceCurrency: String
   , accountType: String
   }
@@ -23,7 +24,8 @@ type alias Model =
 initialModel : Model
 initialModel =
   { q = ""
-  , price = ""
+  , priceMin = ""
+  , priceMax = ""
   , priceCurrency = ""
   , accountType = ""
   }
@@ -39,6 +41,7 @@ init = (initialModel, Cmd.none)
 type Msg
     = CheckUrl
     | SetTerm String
+    | SetMin String
 
 
 {-| Use this function to update the state of out form
@@ -51,6 +54,8 @@ update msg model =
       (model, Cmd.none)
     SetTerm term ->
       ({ model | q = term }, Cmd.none)
+    SetMin minAmount ->
+      ({ model | priceMin = minAmount }, Cmd.none)
 
 
 
@@ -63,7 +68,7 @@ view model =
   div [ align "center"]
   [ div []
     [ text "Search"
-    , input [ type_ "text", placeholder "iPhone...", onInput SetTerm] []
+    , input [ type_ "text", placeholder "iPhone...", onInput SetTerm ] []
     ]
   , div []
     [ text "Seller Type"
@@ -73,7 +78,7 @@ view model =
     [ div []
       [ div []
         [ text "Min"
-        , input [ type_ "text", placeholder "50"] []
+        , input [ type_ "text", placeholder "50", onInput SetMin ] []
         ]
       , div []
         [ text "Max"

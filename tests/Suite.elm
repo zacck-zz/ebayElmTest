@@ -8,7 +8,8 @@ import Test exposing (..)
 model : Model
 model =
   { q = ""
-  , price = ""
+  , priceMin = ""
+  , priceMax =  ""
   , priceCurrency = ""
   , accountType = ""
   }
@@ -24,12 +25,25 @@ modelTest =
                       |> Tuple.first
                       |> Expect.equal
                              { q = "qq"
-                              , price = ""
+                              , priceMin = ""
+                              , priceMax = ""
                               , priceCurrency = ""
                               , accountType = ""
                              }
 
-          ]
+          , test "add a price to state" <|
+              \_ ->
+                  model
+                      |> update (SetMin "50")
+                      |> Tuple.first
+                      |> Expect.equal
+                              { q = ""
+                              , priceMin = "50"
+                              , priceMax = ""
+                              , priceCurrency = ""
+                              , accountType = ""
+                              }
+         ]
       ]
 
 
