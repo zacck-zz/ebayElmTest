@@ -7,6 +7,8 @@ and set up our application
 import Html exposing(Html, div, text, button, input)
 import Html.Attributes exposing(..)
 import Html.Events exposing(onClick, onInput)
+import Navigation exposing(Location)
+import Utils exposing(baseUrl)
 
 
 
@@ -33,8 +35,8 @@ initialModel =
 {-| We use this function to initialize our application when starting up
 We can always start up by checking the value of the url
 -}
-init : (Model, Cmd Msg)
-init = (initialModel, Cmd.none)
+init : Location -> (Model, Cmd Msg)
+init location = (initialModel, Cmd.none)
 
 
 -- Build some messages to update the state
@@ -43,6 +45,8 @@ type Msg
     | SetTerm String
     | SetMin String
     | SetMax String
+    | SetSearch Location
+    | SendSearch
 
 
 {-| Use this function to update the state of out form
@@ -59,6 +63,18 @@ update msg model =
       ({ model | priceMin = minAmount }, Cmd.none)
     SetMax maxAmount ->
       ({ model | priceMax = maxAmount}, Cmd.none)
+    SetSearch location ->
+      let
+          _ =
+              Debug.log "SendSearch" location
+      in
+        (model, Cmd.none)
+    SendSearch ->
+      let
+          cmd =
+                Navigation.newUrl baseUrl
+      in
+        (model, cmd)
 
 
 
@@ -93,12 +109,12 @@ view model =
         ]
       ]
     ]
-   , button [] [text "Search"]
+   , button [ onClick SendSearch ] [text "Search"]
   ]
 
 -- our program
 main =
-  Html.program
+  Navigation.program SetSearch
     { init = init
     , view = view
     , update = update
