@@ -23,7 +23,6 @@ initialModel =
   { q = ""
   , priceMin = ""
   , priceMax = ""
-  , priceCurrency = ""
   , accountType = ""
   , selectedCurrencyId = Nothing
   , currencySelectState = Select.newState ""

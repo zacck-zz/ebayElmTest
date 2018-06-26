@@ -26,7 +26,6 @@ type alias Model =
   { q: String
   , priceMin: String
   , priceMax: String
-  , priceCurrency: String
   , accountType: String
   , selectedCurrencyId : Maybe String
   , currencySelectState : Select.State
