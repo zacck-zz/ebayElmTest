@@ -1,6 +1,7 @@
 module Types exposing(..)
 
 import Navigation exposing(Location)
+import Select
 
 
 
@@ -12,6 +13,11 @@ type Msg
     | SetMax String
     | SetSearch Location
     | SendSearch
+    | OnCurrencySelect (Maybe Currency)
+    | SelectCurrency (Select.Msg Currency)
+    | OnTypeSelect (Maybe SellerType)
+    | SelectType (Select.Msg SellerType)
+
 
 
 
@@ -22,4 +28,24 @@ type alias Model =
   , priceMax: String
   , priceCurrency: String
   , accountType: String
+  , selectedCurrencyId : Maybe String
+  , currencySelectState : Select.State
+  , currencies : List Currency
+  , selectedSellerTypeId : Maybe String
+  , typeSelectState : Select.State
+  , types : List SellerType
+  }
+
+
+-- build a type for the currency
+type alias Currency =
+  { id : String
+  , label : String
+  }
+
+
+-- build a type for the currency
+type alias SellerType =
+  { id : String
+  , label : String
   }

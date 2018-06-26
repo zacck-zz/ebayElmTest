@@ -2,7 +2,9 @@ module State exposing(..)
 
 import Navigation exposing(Location)
 import Types exposing(Msg(..), Model)
-import Utils exposing(baseUrl)
+import Utils exposing(baseUrl, currencySelectConfig, currencies, accountTypes, typeSelectConfig)
+import Select
+
 
 
 
@@ -23,6 +25,12 @@ initialModel =
   , priceMax = ""
   , priceCurrency = ""
   , accountType = ""
+  , selectedCurrencyId = Nothing
+  , currencySelectState = Select.newState ""
+  , currencies = currencies
+  , selectedSellerTypeId = Nothing
+  , typeSelectState = Select.newState ""
+  , types = accountTypes
   }
 
 
@@ -53,3 +61,31 @@ update msg model =
                 Navigation.newUrl baseUrl
       in
         (model, cmd)
+    OnCurrencySelect maybeCurrency ->
+      let
+          maybeId =
+              Maybe.map .id maybeCurrency
+      in
+      -- set a selected currency
+          ( { model | selectedCurrencyId = maybeId}, Cmd.none)
+    SelectCurrency subMsg ->
+      -- send a message to select the currency
+      let
+          (updated, cmd) =
+              Select.update  currencySelectConfig subMsg model.currencySelectState
+      in
+        ( { model | currencySelectState = updated }, cmd)
+    OnTypeSelect maybeType ->
+      let
+          maybeId =
+              Maybe.map .id maybeType
+      in
+      -- set a selected type
+          ( { model | selectedSellerTypeId = maybeId}, Cmd.none)
+    SelectType subMsg ->
+      -- send a message to select the type
+      let
+          (updated, cmd) =
+              Select.update  typeSelectConfig subMsg model.typeSelectState
+      in
+        ( { model | typeSelectState = updated }, cmd)
