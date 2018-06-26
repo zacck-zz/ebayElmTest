@@ -45,7 +45,7 @@ searchValidator =
         [ifBlank .q "Please enter a term"
         ,ifTrue (\model -> String.contains "*" model.q) "* Not allowed in term"
         ]
-    , ifFalse (\model -> currencyPredicate model) "Please select a curreny"
+    , ifFalse (\model -> currencyPredicate model) "Please select a currency"
     ]
 
 {-| Predicate function to check  for currency type if min or max is entered-}
