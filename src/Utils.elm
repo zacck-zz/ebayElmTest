@@ -5,6 +5,38 @@ import Select
 import Validate exposing (Validator, ifBlank, ifInvalidEmail, ifFalse, ifTrue, validate)
 
 
+{-| Utitility function that builds a url out of our currenct model  -}
+urlBuilder : Model -> String
+urlBuilder model =
+  let
+    q = "?q=" ++ model.q
+
+    price =
+      if not (String.isEmpty model.priceMax) && not (String.isEmpty model.priceMin)  then
+        "[" ++ model.priceMin ++ ".." ++ model.priceMax ++ "],priceCurrency:" ++ (currencyPicker model)
+      else if not (String.isEmpty model.priceMax) then
+        "[.." ++ model.priceMax ++ "],priceCurrency:" ++ (currencyPicker model)
+      else if not (String.isEmpty model.priceMin) then
+        "[" ++ model.priceMin ++ "],priceCurrency:" ++ (currencyPicker model)
+      else
+        ""
+
+    seller =
+      case model.selectedSellerTypeId of
+        Just x ->  "sellerAccountTypes:{" ++ x ++ "}"
+        Nothing -> ""
+  in
+    q ++ ",filter=" ++ price ++ "," ++ seller
+
+
+-- pluck the currency from state
+currencyPicker : Model -> String
+currencyPicker model  =
+  case model.selectedCurrencyId of
+    Nothing -> ""
+    Just x  -> x
+
+
 --search validator
 searchValidator : Validator String Model
 searchValidator =
@@ -48,10 +80,10 @@ baseUrl =
 {-|  A list of currencies for options in our form -}
 currencyList : List ( String, String)
 currencyList =
-  [("1","USD")
-  ,("2", "EUR")
-  ,("3", "GBP")
-  ,("4", "CAD")
+  [("USD","USD")
+  ,("EUR", "EUR")
+  ,("GBP", "GBP")
+  ,("CAD", "CAD")
   ]
 
 {-| A helper function that transforms a list of tuples into records
@@ -64,8 +96,8 @@ currencies =
 {-| A list of account types for our form -}
 accountList : List ( String, String)
 accountList =
-  [("1", "INDIVIDUAL")
-  ,("2", "BUSINESS")
+  [("INDIVIDUAL", "INDIVIDUAL")
+  ,("BUSINESS", "BUSINESS")
   ]
 
 {-| A helper function that transforms a list of account types into records
